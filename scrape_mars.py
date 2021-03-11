@@ -90,7 +90,7 @@ def scrape():
         "news_title":news_title,
         "news_p":news_p,
         "featured_image_url":featured_img_url,
-        "fact_table":mars_table,
+        "fact_table":mars_table.to_html(classes="table table-striped"),
         "hemisphere_images":hemisphere_image_urls
     }
 
