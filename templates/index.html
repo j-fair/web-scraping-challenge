@@ -3,105 +3,120 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <title>Mars Data Scraping</title>
+    <title>Mission to Mars</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        h1 {
+            color:   navy;
+            font-size: 45px;
+            font-weight: bold;
+
+        }
+        
+
+        h2 {
+            color:   navy;
+            font-size: 24px;
+            text-align: left;
+        }
+
+        h3 {
+            color: navy;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        h4 {
+            color: navy;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100%;
+            background-color: white;
+        }
+        .btn-primary {
+            color: white;
+            background-color: navy;
+            border-color: navy;
+            }
+        .jumbotron {
+            padding: 5rem 4rem;
+            margin-bottom: 5rem;
+            background-image: image-set('1500x500.jpeg');
+            background-color: lightcoral;
+            border-radius: .5rem;
+            }
+
+
+        img {
+            width: 100%;
+        }
+
+        #vpadding {
+            padding: 25% 0;
+            }
+        #scale_id {
+            width: 500px;
+            height: 500px;
+            object-fit: fill;
+}</style>
 </head>
 
-<body style="background:black;">
-    <div class="container" style="background:black;">
-        <div class="jumbotron text-center" style="width: 100%;">
-            <h1>Mars Data Scraping</h1>
+
+<body >
+    
+    <div  class="container">
+        <div class="jumbotron text-center">
+            <h1>Mission to Mars</h1>
             <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
         </div>
-        <h1 style="color:white; text-align:center; margin-bottom:30px; border-bottom:1px solid white; padding-bottom:10px;">
-            Mars Information
-        </h1>
         <div class="row">
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Latest Mars News</h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>{{ mars_data.nasa_headline }}</h4>
-                        <p>{{ mars_data.nasa_teaser }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Latest Mars Weather</h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>{{ mars_data.weather_summary }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Mars Facts</h3>
-                    </div>
-                    <div class="panel-body">
-                        <table>
-                            {{ mars_data.fact_table|safe }}
-                        </table>
-                    </div>
-                </div>
+            <div class="col col-12">
+                <h2>Latest Mars News</h2>
+                <h3>{{mars.news_title}}</h3>
+                {{mars.news_p}}
             </div>
         </div>
-        <h1 style="color:white; text-align:center; margin-bottom:30px; border-bottom:1px solid white; padding-bottom:10px;">
-            Mars Images
-        </h1>
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Featured Image</h3>
-                    </div>
-                    <div class="panel-body">
-                        <img src= {{ mars_data.feature_image_src }} alt="Featured Image" class="img-responsive">
-                    </div>
-                </div>
+            <div class="col col-8">
+                <h2>Featured Mars Image</h2>
+                <img src={{mars.featured_image_url}} alt="Featured image">
             </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Mars Hemispheres</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="thumbnail" style="width: 50%; float:left;">
-                            <img src= {{ mars_data.hemisphere_imgs[0].img_url }} alt="Hemisphere1">
-                            <div class="caption">
-                                <h4>{{ mars_data.hemisphere_imgs[0]["title"] }}</h4>
-                            </div>
-                        </div>
-                        <div class="thumbnail" style="width: 50%; float:left;">
-                            <img src= {{ mars_data.hemisphere_imgs[2].img_url }} alt="Hemisphere2">
-                            <div class="caption">
-                                <h4>{{ mars_data.hemisphere_imgs[2]["title"] }}</h4>
-                            </div>
-                        </div>
-                        <div class="thumbnail" style="width: 50%; float:left;">
-                            <img src= {{ mars_data.hemisphere_imgs[1].img_url }} alt="Hemisphere3">
-                            <div class="caption">
-                                <h4>{{ mars_data.hemisphere_imgs[1]["title"] }}</h4>
-                            </div>
-                        </div>
-                        <div class="thumbnail" style="width: 50%; float:left;">
-                            <img src= {{ mars_data.hemisphere_imgs[3].img_url }} alt="Hemisphere4">
-                            <div class="caption">
-                                <h4>{{ mars_data.hemisphere_imgs[3]["title"] }}</h4>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col col-4">
+                <div class="boxborder">
                 </div>
+                <br>
+                <h3>Mars Facts</h3>
+                {{mars.facts_table | safe}}
             </div>
         </div>
-    </div>
+        <br><br>
+        <div class="row">
+            <div class="col col-12">
+                <h4>Mars Hemisphere</h4>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            {% for image_url in  mars.hemisphere_images %}
+            <div class="col col-6">
+                <div class="boxmargin">
+                    <img src={{image_url.img_url}} alt={{image_url.img_url}}>
+                    <h3>{{image_url.title}}</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

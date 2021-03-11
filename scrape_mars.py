@@ -12,12 +12,14 @@ def scrape():
     browser = init_browser()
     mars_dict = {}
 
+    nasa_url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
+    browser.visit(nasa_url)
     nasa_html = browser.html
     nasa_soup = BeautifulSoup(nasa_html, "html.parser")
     slide_element = nasa_soup.select_one("ul.item_list li.slide")
 
-    news_title = slide_element.find("div", class_="content_title").get_text()
-    news_p = slide_element.find('div',class_='article_teaser_body').get_text()
+    news_title = slide_element.find("div", class_="content_title").text
+    news_p = slide_element.find('div',class_='article_teaser_body').text
 
     jpl_url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
     browser.visit(jpl_url)
@@ -42,8 +44,8 @@ def scrape():
     mars_facts_url = 'https://space-facts.com/mars/'
     browser.visit(mars_facts_url)
 
-    #facts_html = browser.html
-    #facts_soup = BeautifulSoup(facts_html, "html.parser")
+    facts_html = browser.html
+    facts_soup = BeautifulSoup(facts_html, "html.parser")
 
     try:
         mars_table = pd.read_html("https://space-facts.com/mars/")[0]
@@ -52,9 +54,11 @@ def scrape():
     mars_table.columns=["Planet Profile", "Cool Fact"]
     mars_table.set_index("Planet Profile", inplace=True)
 
-    final_mars_table = mars_table.to_html(classes="table table-striped")
+    mars_table.to_html(classes="table table-striped")
 
-    #mars_hemispheres = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    mars_hemispheres = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+
+    browser.visit(mars_hemispheres)
 
     hemi_html = browser.html
     hemi_soup = BeautifulSoup(hemi_html, "html.parser")
@@ -65,7 +69,7 @@ def scrape():
     for hemi in range(len(hemi_search)):
     
         # splinter browser to obtain hemisphere link for image data
-        browser.find_by_css("a.product-item h3")[item].click()
+        browser.find_by_css("a.product-item h3")[hemi].click()
     
         hemi_html = browser.html
         hemi_soup = BeautifulSoup(hemi_html, "html.parser")
@@ -86,7 +90,7 @@ def scrape():
         "news_title":news_title,
         "news_p":news_p,
         "featured_image_url":featured_img_url,
-        "fact_table":final_mars_table,
+        "fact_table":mars_table,
         "hemisphere_images":hemisphere_image_urls
     }
 
