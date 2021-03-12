@@ -2,6 +2,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from splinter import Browser
 from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 def init_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -14,23 +15,34 @@ def scrape():
 
     nasa_url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
     browser.visit(nasa_url)
+    time.sleep(1)
     nasa_html = browser.html
     nasa_soup = BeautifulSoup(nasa_html, "html.parser")
     slide_element = nasa_soup.select_one("ul.item_list li.slide")
 
-    news_title = slide_element.find("div", class_="content_title").text
-    news_p = slide_element.find('div',class_='article_teaser_body').text
+    try:
+        news_title = slide_element.find("div", class_="content_title").text
+    except:
+        None
+    
+    try:
+        news_p = slide_element.find('div',class_='article_teaser_body').text
+    except:
+        None
 
     jpl_url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
     browser.visit(jpl_url)
 
     browser.click_link_by_partial_text('FULL IMAGE')
+    time.sleep(1)
 
     try:
         jpl_html = browser.html
         jpl_soup = BeautifulSoup(jpl_html, "html.parser")
 
         pic_search = jpl_soup.find_all('img', {'class' :'headerimage'})
+
+        time.sleep(1)
 
         for link in pic_search:
             img_path = (link.get('src'))
@@ -43,6 +55,7 @@ def scrape():
 
     mars_facts_url = 'https://space-facts.com/mars/'
     browser.visit(mars_facts_url)
+    time.sleep(1)
 
     facts_html = browser.html
     facts_soup = BeautifulSoup(facts_html, "html.parser")
@@ -59,6 +72,7 @@ def scrape():
     mars_hemispheres = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
 
     browser.visit(mars_hemispheres)
+    time.sleep(1)
 
     hemi_html = browser.html
     hemi_soup = BeautifulSoup(hemi_html, "html.parser")
@@ -70,6 +84,7 @@ def scrape():
     
         # splinter browser to obtain hemisphere link for image data
         browser.find_by_css("a.product-item h3")[hemi].click()
+        time.sleep(1)
     
         hemi_html = browser.html
         hemi_soup = BeautifulSoup(hemi_html, "html.parser")

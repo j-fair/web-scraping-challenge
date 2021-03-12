@@ -19,7 +19,7 @@ def scrape():
     mars_dict = mongo.db.mars_dict
     mars_data = scrape_mars.scrape()
     mars_dict.update({}, mars_data, upsert=True)
-    return "Successful scrape"
+    return render_template("success.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
